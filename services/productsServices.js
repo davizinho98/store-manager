@@ -6,8 +6,8 @@ const getProducts = async () => {
   return products;
 };
 
-const getProductsById = async () => {
-  const product = await productsModel.getProductsById();
+const getProductsById = async (id) => {
+  const product = await productsModel.getProductsById(id);
 
   return product;
 };
