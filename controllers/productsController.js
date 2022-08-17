@@ -6,11 +6,13 @@ const getProducts = async (_request, response) => {
   response.status(200).json(products);
 };
 
-const getProductsById = async (request, response) => {
+const getProductById = async (request, response) => {
   const { id } = request.params;
-  const product = await productsService.getProductsById(id);
+  const product = await productsService.getProductById(id);
+
+  if (!product) return response.status(404).json({ message: 'Product not found' });
 
   response.status(200).json(product);
 };
 
-module.exports = { getProducts, getProductsById };
+module.exports = { getProducts, getProductById };
