@@ -22,6 +22,16 @@ const createSaleAndProduct = async (request, response) => {
   response.status(201).json(sale);
 };
 
+const updateSale = async (request, response) => {
+  const sale = await salesServices.updateSale(request.params, request.body);
+
+  if (!sale) {
+    return response.status(404).json({ message: 'Sale not found' });
+  }
+
+  response.status(200).json(sale);
+};
+
 const deleteSale = async (request, response) => {
   const sale = await salesServices.deleteSale(request.params);
 
@@ -32,4 +42,4 @@ const deleteSale = async (request, response) => {
   response.status(204).end();
 };
 
-module.exports = { createSaleAndProduct, getSales, getSaleById, deleteSale };
+module.exports = { createSaleAndProduct, getSales, getSaleById, deleteSale, updateSale };

@@ -23,6 +23,18 @@ const createSaleAndProduct = async (sales) => {
   return saleCreated;
 };
 
+const updateSale = async ({ id }, sales) => {
+  const saleExits = await salesModel.getSaleById(id);
+  if (!saleExits) return null;
+
+  await Promise
+    .all(sales.map((sale) => salesModel.updateSale(id, sale.productId, sale.quantity)));
+
+  const updatedSale = { saleId: id, itemsUpdated: sales };
+
+  return updatedSale;
+};
+
 const deleteSale = async ({ id }) => {
   const sale = await salesModel.getSaleById(id);
 
@@ -33,4 +45,4 @@ const deleteSale = async ({ id }) => {
   return true;
 };
 
-module.exports = { createSaleAndProduct, getSales, getSaleById, deleteSale };
+module.exports = { createSaleAndProduct, getSales, getSaleById, deleteSale, updateSale };

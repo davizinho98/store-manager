@@ -15,6 +15,9 @@ router.post(
     validateSale.validateIdOnDb,
     salesController.createSaleAndProduct,
 );
+
+router.put('/:id',
+  validateSale.validateSaleData, validateSale.validateIdOnDb, salesController.updateSale);
   
 router.delete('/:id', salesController.deleteSale);
 
