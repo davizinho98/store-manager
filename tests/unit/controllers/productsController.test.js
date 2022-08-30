@@ -67,4 +67,57 @@ describe('Camada controller de produtos', () => {
       expect(response.json.calledWith(result)).to.be.equal(true);
     });
   });
+
+  describe('Método createProduct', () => { 
+    const request = {};
+    const response = {};
+
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+      request.body = { name: 'Martelo de Thor' };
+
+      sinon.stub(productsServices, 'createProduct').resolves(result);
+    }),
+      after(() => {
+        productsServices.createProduct.restore();
+      }),
+      it('Deve retornar a response com status correto', async () => {
+        await productsController.createProduct(request, response);
+
+        expect(response.status.calledWith(201)).to.be.equal(true);
+      }),
+      it('Deve retornar o produto criado', async () => {
+        await productsController.createProduct(request, response);
+
+        expect(response.json.calledWith(result)).to.be.equal(true);
+      });
+  });
+
+  describe('Método updateProduct', () => {
+    const request = {};
+    const response = {};
+
+    before(() => {
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+      request.params = { id: 1 };
+      request.body = { name: 'Martelo de Thor' };
+
+      sinon.stub(productsServices, 'updateProduct').resolves(result);
+    }),
+      after(() => {
+        productsServices.updateProduct.restore();
+      }),
+      it('Deve retornar a response com status correto', async () => {
+        await productsController.updateProduct(request, response);
+
+        expect(response.status.calledWith(200)).to.be.equal(true);
+      }),
+      it('Deve retornar o produto atualizado', async () => {
+        await productsController.updateProduct(request, response);
+
+        expect(response.json.calledWith(result)).to.be.equal(true);
+      });
+  });
 });
