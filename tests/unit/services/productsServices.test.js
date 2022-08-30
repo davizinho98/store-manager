@@ -56,4 +56,66 @@ describe('Camada services de produtos', () => {
       expect(product).to.be.equal(result[0]);
     });
   });
+
+  describe('Método createProduct', () => {
+    before(() => {
+      sinon.stub(productsModel, 'createProduct').resolves(result.length + 1);
+      sinon.stub(productsModel, 'getProductById').resolves({ id: 4, name: 'Joia do Infinito' });
+    });
+
+    after(() => {
+      productsModel.createProduct.restore();
+      productsModel.getProductById.restore();
+    });
+
+    it('Deve retornar um objeto com as chaves id e name', async () => {
+      const insertId = await productsServices.createProduct({ name: 'Joia do Infinito' });
+      const product = await productsServices.getProductById(insertId);
+
+      expect(product).to.be.an('object');
+      expect(product).to.have.property('id');
+      expect(product).to.have.property('name');
+    });
+  });
+
+  describe('Método updateProduct', () => {
+    describe('Quando não houver o produto com id', () => {
+      before(() => {
+        sinon.stub(productsModel, 'getProductById').resolves(null);
+      });
+
+      after(() => {
+        productsModel.getProductById.restore();
+      });
+
+      it('Retorna nulo se o produto não existir', async () => {
+        const product = await productsServices.getProductById(1);
+
+        expect(product).to.be.null;
+      });
+    });
+    describe('Quando houver o produto com id', () => {
+      before(() => {
+        sinon.stub(productsModel, 'updateProduct').resolves({ id: 1, name: 'Joia do Infinito' });
+        sinon.stub(productsModel, 'getProductById').resolves({ id: 1, name: 'Joia do Infinito' });
+      });
+
+      after(() => {
+        productsModel.updateProduct.restore();
+        productsModel.getProductById.restore();
+      });
+
+      it('Deve retornar um objeto com as chaves id e name', async () => {
+        const ID = 1;
+        const newName = 'Joia do Infinito';
+        const product = await productsServices.updateProduct(ID, newName);
+
+        expect(product).to.be.an('object');
+        expect(product).to.have.property('id');
+        expect(product).to.have.property('name');
+        expect(product.id).to.be.equal(ID);
+        expect(product.name).to.be.equal(newName);
+      });
+    });
+  });
 });
