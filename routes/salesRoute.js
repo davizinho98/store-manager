@@ -14,6 +14,8 @@ router.post(
     validateSale.validateSaleData,
     validateSale.validateIdOnDb,
     salesController.createSaleAndProduct,
-  );
+);
+  
+router.delete('/:id', salesController.deleteSale);
 
 module.exports = router;

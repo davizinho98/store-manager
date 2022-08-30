@@ -20,6 +20,8 @@ const getSaleById = async (saleId) => {
     [saleId],
   );
 
+  if (result.length === 0) return null;
+
   return result;
 };
 
@@ -40,4 +42,15 @@ const createSale = async () => {
   return result.insertId;
 };
 
-module.exports = { createSaleAndProduct, createSale, getSales, getSaleById };
+const deleteSale = async (id) => {
+  const [result] = await connection.execute(
+    'DELETE FROM StoreManager.sales WHERE id = ?',
+    [id],
+  );
+
+  if (!result) return null;
+
+  return { affectedRows: result.affectedRows };
+};
+
+module.exports = { createSaleAndProduct, createSale, getSales, getSaleById, deleteSale };

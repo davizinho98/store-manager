@@ -9,7 +9,7 @@ const getSales = async (_request, response) => {
 const getSaleById = async (request, response) => {
   const sale = await salesServices.getSaleById(request.params);
 
-  if (sale.length === 0) {
+  if (!sale) {
     return response.status(404).json({ message: 'Sale not found' });
   }
 
@@ -22,4 +22,14 @@ const createSaleAndProduct = async (request, response) => {
   response.status(201).json(sale);
 };
 
-module.exports = { createSaleAndProduct, getSales, getSaleById };
+const deleteSale = async (request, response) => {
+  const sale = await salesServices.deleteSale(request.params);
+
+  if (!sale) {
+    return response.status(404).json({ message: 'Sale not found' });
+  }
+
+  response.status(204).end();
+};
+
+module.exports = { createSaleAndProduct, getSales, getSaleById, deleteSale };
