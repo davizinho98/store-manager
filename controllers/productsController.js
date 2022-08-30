@@ -29,4 +29,12 @@ const updateProduct = async (request, response) => {
   response.status(200).json(product);
 };
 
-module.exports = { getProducts, getProductById, createProduct, updateProduct };
+const deleteProduct = async (request, response) => {
+  const product = await productsService.deleteProduct(request.params);
+
+  if (!product) return response.status(404).json({ message: 'Product not found' });
+
+  response.status(204).end();
+};
+
+module.exports = { getProducts, getProductById, createProduct, updateProduct, deleteProduct };
