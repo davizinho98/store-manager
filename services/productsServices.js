@@ -14,6 +14,15 @@ const getProductById = async (id) => {
   return product;
 };
 
+const getProductByName = async ({ q }) => {
+  if (!q || q === '') {
+    return getProducts();
+  }
+  const products = await productsModel.getProductByName(q);
+
+  return products;
+};
+
 const createProduct = async ({ name }) => {
   const id = await productsModel.createProduct(name);
 
@@ -42,4 +51,6 @@ const deleteProduct = async ({ id }) => {
   return true;
 };
 
-module.exports = { getProducts, getProductById, createProduct, updateProduct, deleteProduct };
+module.exports = {
+  getProducts, getProductById, createProduct, updateProduct, deleteProduct, getProductByName,
+};
